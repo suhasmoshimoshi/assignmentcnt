@@ -1,0 +1,10 @@
+query GetProductById($id: String!) {
+  product(id: $id) {
+    sys {
+      id
+    }
+    title
+    description
+    imageUrl
+  }
+}
