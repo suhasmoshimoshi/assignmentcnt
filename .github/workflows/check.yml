@@ -1,0 +1,47 @@
+name: Check
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out Git repository
+        uses: actions/checkout@v4
+
+      - name: Cache node modules
+        id: node-modules-cache
+        uses: actions/cache@v4
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Use NVM node version
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "yarn"
+
+      - name: Install dependencies
+        if: steps.node-modules-cache.outputs.cache-hit != 'true'
+        run: yarn install --immutable
+
+      - name: Lint check
+        run: yarn lint
+
+      - name: Format check
+        run: yarn format
+
+      - name: Run build
+        run: yarn build
+
+      - name: Analyze bundle sizes
+        uses: transferwise/actions-next-bundle-analyzer@v2
+        with:
+          comment-strategy: "always"

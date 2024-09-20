@@ -1,0 +1,64 @@
+import type { StoryObj } from "@storybook/react";
+import { {{pascalCase name}}ComponentProps, {{pascalCase name}}Component } from "./{{kebabCase name}}.component";
+
+const meta = {
+  title: "Components/{{titleCase name}}",
+  component: {{pascalCase name}}Component,
+  tags: ["autodocs"],
+  parameters: {
+    layout: "fullscreen",
+    {{#if figmaLink}}
+    design: {
+      type: "figma",
+      url: "{{ figmaLink }}",
+    },
+    {{/if}}
+  },
+  argTypes: {
+    aColor: {
+      control: {
+        type: "color",
+        presetColors: ["#ff0000", "#00ff00", "#0000ff"],
+      },
+    },
+    anEnum: {
+      control: "inline-radio",
+      defaultValue: "bar",
+      options: ["foo", "bar", "buzz"],
+    },
+    aNumber: {
+      control: { type: "range", min: -1, max: 1500, step: 0.1 },
+    },
+    aBoolean: {
+      control: "boolean",
+    },
+    aString: {
+      control: "text",
+    },
+  },
+};
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// Use this as a quick-start for your default properties.
+// you can add and remove items to this, or delete it if you like
+const {{constantCase name}}_COMPONENT_PROPS_EXAMPLE: {{pascalCase name}}ComponentProps = {
+  aBoolean: false,
+  aColor: "green",
+  anEnum: "baz",
+  aNumber: 42,
+  aString: "a title",
+};
+
+export const Basic: Story = {
+  render: (props: {{pascalCase name}}ComponentProps) => {
+    // you can take in anything you want from "args" down there
+    // and modify it here in this function before sending it out again.
+    // This is a great way to customize and tweak your stories.
+    return <{{pascalCase name}}Component {...props} />;
+  },
+  args: {
+    ...{{constantCase name}}_COMPONENT_PROPS_EXAMPLE,
+  },
+};
