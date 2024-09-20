@@ -18,7 +18,7 @@ export const updateProduct = async (id: string, fields: { title?: string; descri
     
     return updatedProduct;
   } catch (error) {
-    console.error('Error updating product:', error);
+    console.error('Error updating product', error);
     throw error;
   }
 };
